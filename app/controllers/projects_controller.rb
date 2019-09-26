@@ -1,8 +1,20 @@
+class Project
+  attr_accessor :id, :name
+
+  def initialize(id:, name:)
+    @id = id
+    @name = name
+  end
+end
+
 class ProjectsController < ApplicationController
   before_action :authenticate_request!
 
   def index
-    render json: [{ name: 'Qui' }, { name: 'Quo' }, { name: 'Qua' }]
+    p1 = Project.new(id: 1, name: 'Qui')
+    p2 = Project.new(id: 2, name: 'Qui')
+
+    render json: ProjectSerializer.new([p1, p2]).serialized_json
   end
 
   private

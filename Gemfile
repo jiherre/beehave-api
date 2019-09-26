@@ -46,3 +46,5 @@ gem 'rack-cors', require: 'rack/cors'
 gem 'jwt'
 gem 'httparty'
 gem "octokit", "~> 4.0"
+
+gem 'fast_jsonapi'
