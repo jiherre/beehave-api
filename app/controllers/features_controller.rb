@@ -17,6 +17,15 @@ class FeaturesController < ApplicationController
     render json: FeatureSerializer.new(feature).serialized_json
   end
 
+  def update
+    feature = Feature.find(params[:id])
+    new_values = parse_feature_param
+
+    feature.update_attributes(new_values)
+
+    render json: FeatureSerializer.new(feature).serialized_json
+  end
+
   private
 
   def parse_feature_param

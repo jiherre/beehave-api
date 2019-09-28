@@ -4,7 +4,7 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors, debug: true, lo
 
     resource '*',
       headers: :any,
-      methods: [:get, :post, :delete, :put, :options, :head],
+      methods: [:get, :post, :delete, :put, :options, :head, :patch],
       max_age: 0
   end
 end
