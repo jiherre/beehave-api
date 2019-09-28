@@ -1,5 +1,3 @@
-require 'octokit'
-
 class TokensController < ApplicationController
   include HTTParty
 

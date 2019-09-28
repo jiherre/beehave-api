@@ -1,3 +1,5 @@
+require 'octokit'
+
 class FeaturesController < ApplicationController
   include AuthentificationConcern
 
@@ -26,6 +28,12 @@ class FeaturesController < ApplicationController
     render json: FeatureSerializer.new(feature).serialized_json
   end
 
+  def push_to_git
+    feature = Feature.find(params[:id])
+    push_feature_to_git feature
+    render json: {}, status: :ok
+  end
+
   private
 
   def parse_feature_param
@@ -35,5 +43,14 @@ class FeaturesController < ApplicationController
       name: data[:name],
       content: data[:content]
     }
+  end
+
+  def push_feature_to_git(feature)
+    binding.pry
+    client = Octokit::Client.new(access_token: @current_user.access_token)
+    client.add_content("jracenet/hps-behat",
+                "features/#{feature.name.parameterize}.feature",
+                "Add feature #{feature.name}",
+                feature.content)
   end
 end
