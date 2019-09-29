@@ -1,6 +1,9 @@
 require 'octokit'
 
 class FeaturesController < ApplicationController
+  REPO_URI = "jracenet/hps-behat"
+  FEATURE_PATH_PREFIX = "features/beehave"
+
   include AuthentificationConcern
 
   def create
@@ -52,26 +55,26 @@ class FeaturesController < ApplicationController
   end
 
   def get_or_create_content(client, feature)
-  repo_path = "jracenet/hps-behat"
-  feature_path = forge_feature_path(feature)
+    feature_path = forge_feature_path(feature)
+
     begin
-      file = client.contents(repo_path, path: feature_path)
+      file = client.contents(REPO_URI, path: feature_path)
       feature_sha = file[:sha]
 
-      client.update_contents(repo_path,
+      client.update_contents(REPO_URI,
                   feature_path,
                   "Updating #{feature.name}",
                   feature_sha,
                   feature.content)
     rescue => e
-      client.add_content("jracenet/hps-behat",
-                    forge_feature_path(feature),
+      client.add_content(REPO_URI,
+                    feature_path,
                     "Add feature #{feature.name}",
                     feature.content)
     end
   end
 
   def forge_feature_path(feature)
-    "features/#{feature.name.parameterize}.feature"
+    "#{FEATURE_PATH_PREFIX}/#{feature.name.parameterize}.feature"
   end
 end
