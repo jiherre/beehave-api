@@ -8,7 +8,13 @@ class FeaturesController < ApplicationController
 
   def create
     feature_data = parse_feature_param
-    new_feature = Feature.create_by_name(name: feature_data.dig(:name))
+
+    if feature_data[:content]
+      new_feature = Feature.create_by_content(content: feature_data.dig(:content))
+    else
+      new_feature = Feature.create_by_name(name: feature_data.dig(:name))
+    end
+
 
     render json: FeatureSerializer.new(new_feature).serialized_json
   end

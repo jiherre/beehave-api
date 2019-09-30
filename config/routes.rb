@@ -4,4 +4,6 @@ Rails.application.routes.draw do
   resources :features, only: [:index, :show, :create, :update, :destroy]
 
   post '/features/:id/push', to: 'features#push_to_git'
+
+  get '/git_tree', to: 'git_tree#show'
 end
