@@ -31,6 +31,14 @@ class FeaturesController < ApplicationController
     render json: FeatureSerializer.new(feature).serialized_json
   end
 
+  def destroy
+    feature = Feature.find(params[:id])
+
+    feature.destroy
+
+    render json: FeatureSerializer.new(feature).serialized_json
+  end
+
   def push_to_git
     feature = Feature.find(params[:id])
     push_feature_to_git feature
